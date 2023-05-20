@@ -26,7 +26,6 @@ fun EditBookUiState.toBook(): Book = Book(
     author = author,
     isbn = isbn,
 
-    // rating = rating.toDoubleOrNull() ?: 0.0
 )
 
 fun EditBookUiState.toBookUiState(actionEnabled: Boolean): EditBookUiState = EditBookUiState(

@@ -26,17 +26,22 @@ import com.example.bookapp.viewmodels.EditViewModel
 import com.example.bookapp.widget.SimpleTextField
 import com.example.bookapp.widget.SimpleTopAppBar
 import com.example.movieappmad23.screens.EditBookUIEvent
+import kotlinx.coroutines.launch
 //wieso funktioniert es nicht mt bookapp.screens.EditBookUIEvent beim movieappmad23.
 //warum ist das so???
 import java.util.*
 //da stand früher addbook i state
 @Composable
 fun EditScreen(
+
     navController: NavController,
-    booksViewModel: EditViewModel,
     bookId: kotlin.String? //es muss null sein dürfen
     //Wieso war es bei leon books?, bookId: kotlin.String?){}
-){
+)
+
+{
+    val viewModel = EditViewModel()
+
     val scaffoldState = rememberScaffoldState()
 
   Scaffold(
@@ -49,7 +54,7 @@ fun EditScreen(
     ) { padding ->
         MainContent(
             Modifier.padding(padding),
-            booksViewModel = booksViewModel,
+            booksViewModel = viewModel,
             navController = navController
         )
     }
@@ -73,13 +78,22 @@ fun MainContent(
         BookBody(
             bookUiState = booksViewModel.bookUiState,
             onBookValueChange = { newUiState, event -> booksViewModel.updateUIState(newUiState, event)},
-            onSaveClick = {
+            onSaveClick = { //wieso macht man da eine coroutinge?
+                coroutineScope.launch {
                 booksViewModel.saveBook()
                 navController.navigate(Screen.HomeScreen.route) //statt main
+                }
             }
         )
     }
 }
+/*
+
+
+
+
+}
+ */
 
 @Composable
 fun BookBody(
@@ -99,7 +113,7 @@ fun BookBody(
         Button(
             enabled = bookUiState.actionEnabled,
             onClick = onSaveClick) {
-            Text(text = "Add")
+            Text(text = stringResource(R.string.add))
             //das String Resource ist sinnvoll, wenn wir den gleichen String an mehreren Teilen im App verwenden
             //oder: App mit mehreren Sprachen -> deutsch englisch und spanisch
         }
@@ -212,16 +226,6 @@ fun EditScreen(
         }
     }
 }
-
-fun validateBookData(title: String, author: String, year: String, isbn: String): Boolean {
-    if (title.isEmpty() || author.isEmpty()) {
-        return false
-    }
-
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    if (year.toIntOrNull() == null || year.toInt() > currentYear) {
-        return false
-    }
 
 
 }

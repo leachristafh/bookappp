@@ -22,13 +22,12 @@ fun Navigation() { //früher : navController: NavHostController
     val navController = rememberNavController()
 
 // inside a composable SOLLTE ES EIG BOOKS SEIN WIE MEIN LEON???
-    val editViewModel: EditViewModel = viewModel() //  val movieViewModel: MoviesViewModel = viewModel()
+    // val editViewModel: EditViewModel = viewModel()   val movieViewModel: MoviesViewModel = viewModel()
  //bei leon ist es  Screen.MainScreen.route bei der start destination
     NavHost(navController, startDestination = Screen.HomeScreen.route) {
         composable(route = Screen.HomeScreen.route) {
-            HomeScreen(navController = navController, viewModel = editViewModel)
-            // Composable für den FavoriteScreen
-            // HomeScreen(navController = navController, moviesViewModel = movieViewModel)
+            HomeScreen(navController = navController)
+
         }
         composable(
             Screen.EditScreen.route,
@@ -40,7 +39,6 @@ fun Navigation() { //früher : navController: NavHostController
             EditScreen( //beim Import passiert folgendes: Screen.Editscreen
                 navController = navController,
 
-                booksViewModel = editViewModel,
                 bookId = backStackEntry.arguments?.getString(DETAIL_ARGUMENT_KEY)
             )   // get the argument from navhost that will be passed
         }

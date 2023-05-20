@@ -4,6 +4,7 @@ package com.example.bookapp.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
@@ -16,71 +17,90 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-
+import com.example.bookapp.models.Book
 import com.example.bookapp.viewmodels.EditViewModel
+import com.example.bookapp.viewmodels.FavoriteViewModel
 import com.example.bookapp.widget.HomeTopAppBar
 import com.example.bookapp.widget.SimpleTopAppBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController = rememberNavController(), viewModel: EditViewModel) {
+fun HomeScreen(navController: NavController = rememberNavController()) {
+
+    val viewModel = FavoriteViewModel()
 
     //später soll der obere Teil Scaffold noch in den EditScreen
     Scaffold(topBar = {
-       HomeTopAppBar(
+        HomeTopAppBar(
             title = "Favorite Screen",
             menuContent = {
                 DropdownMenuItem(onClick = { navController.navigate(Screen.HomeScreen.route) }) {
                     Row {
-                        Text(text = "Favorites/Home Screen", modifier = Modifier
-                            .width(100.dp)
-                            .padding(4.dp))
+                        Text(
+                            text = "Home Screen", modifier = Modifier
+                                .width(100.dp)
+                                .padding(4.dp)
+                        )
 
                     }
                 }
+
                 DropdownMenuItem(onClick = { navController.navigate(Screen.EditScreen.route) }) {
                     Row {
-                        Text(text = "Edit Screen", modifier = Modifier
-                            .width(100.dp)
-                            .padding(4.dp))
+                        Text(
+                            text = "Edit Screen", modifier = Modifier
+                                .width(100.dp)
+                                .padding(4.dp)
+                        )
 
                     }
                 }
+
+
             }
         )
     }
     )
     { padding ->
-        MainContent(modifier = Modifier.padding(padding), navController = navController,  booksViewModel = viewModel)
+        Text(text = "currently there are no favorites")
+        MainContent(
+            modifier = Modifier.padding(padding),
+            navController = navController,
+            viewModel = viewModel
+        )
     }
 }
-/*
+
 @Composable
 fun MainContent(
     modifier: Modifier,
     navController: NavController,
-    viewModel: EditViewModel
+    viewModel: FavoriteViewModel
 ) {
     val bookListState by viewModel.getAllBooks().collectAsState()
-    if (bookListState.isEmpty()) {
-        Text(text = "Es gibt derzeit keine Favoriten")
+    val items = bookListState // Your list of items
+    Text(text = items.size.toString())
+
+    if (items.isEmpty()) {
+        Text(text = "currently there are no favorites")
+
     } else
-        Scaffold(topBar = {
-            SimpleTopAppBar(arrowBackClicked = { navController.popBackStack() }) {
-                Text(text = "My Favorite Movies")
-            }
-        }){ padding ->
-            val bookList: List<Book> = getBooks(){
-        Column(modifier = Modifier.padding(5.dp)) {
-            LazyColumn {
-                items(bookList){ books ->
-                    BookRow(
-                        book = book,
 
+        LazyColumn {
+            items(items) {
+                BookRow(book = it)
 
-                }
             }
         }
-    }*/
+}
+
+@Composable
+
+fun BookRow(
+    book: Book
+) {
+
+}
+
 

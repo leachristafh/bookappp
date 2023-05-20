@@ -6,32 +6,32 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.*
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
 
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookapp.models.Book
-import com.example.bookapp.viewmodels.EditViewModel
 import com.example.bookapp.viewmodels.FavoriteViewModel
 import com.example.bookapp.widget.HomeTopAppBar
 import com.example.bookapp.widget.SimpleTopAppBar
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
 
     val viewModel = FavoriteViewModel()
 
     //später soll der obere Teil Scaffold noch in den EditScreen
-    Scaffold(topBar = {
+   Scaffold(topBar = {
         HomeTopAppBar(
             title = "Favorite Screen",
             menuContent = {
@@ -63,7 +63,6 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
     }
     )
     { padding ->
-        Text(text = "currently there are no favorites")
         MainContent(
             modifier = Modifier.padding(padding),
             navController = navController,
@@ -80,7 +79,7 @@ fun MainContent(
 ) {
     val bookListState by viewModel.getAllBooks().collectAsState()
     val items = bookListState // Your list of items
-    Text(text = items.size.toString())
+    // zum debuggen : Text(text = items.size.toString())
 
     if (items.isEmpty()) {
         Text(text = "currently there are no favorites")
@@ -98,9 +97,27 @@ fun MainContent(
 @Composable
 
 fun BookRow(
-    book: Book
-) {
+    book: Book) {}
 
+/*
+{
+    Card(modifier = modifier
+        .fillMaxWidth()
+        .padding(5.dp),
+        shape = Shapes.large,
+        elevation = 10.dp
+    ) {
+        Column {
+            Box(modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            )
+
+           // BookDetails(modifier = Modifier.padding(12.dp), book = book)
+        }
+    }
 }
+ */
 
 

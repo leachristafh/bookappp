@@ -5,12 +5,14 @@ package com.example.bookapp.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 
@@ -148,6 +150,11 @@ fun BookDetails(modifier: Modifier = Modifier, book: Book) {
             modifier = Modifier.weight(6f),
             style = MaterialTheme.typography.h6
         )
+        Text(
+            book.author,
+            modifier = Modifier.weight(6f),
+            style = MaterialTheme.typography.h6
+        )
 
         IconButton(
             modifier = Modifier.weight(1f),
@@ -169,16 +176,37 @@ fun BookDetails(modifier: Modifier = Modifier, book: Book) {
         exit = fadeOut()
     ) {
         Column (modifier = modifier) {
-            androidx.compose.material.Text(text = "Author: ${book.author}", style = MaterialTheme.typography.caption)
+           //androidx.compose.material.Text(text = "Author: ${book.author}", style = MaterialTheme.typography.caption)
             androidx.compose.material.Text(text = "First publish year: ${book.year}", style = MaterialTheme.typography.caption)
             androidx.compose.material.Text(text = "Isbn: ${book.isbn}", style = MaterialTheme.typography.caption)
-            androidx.compose.material.Text(text = "Title: ${book.title}", style = MaterialTheme.typography.caption)
+           // androidx.compose.material.Text(text = "Title: ${book.title}", style = MaterialTheme.typography.caption)
 
             //Divider(modifier = Modifier.padding(3.dp))
 
 
         }
     }
+    /*
+    @Composable
+    fun DoneIcon(book: Book, onRead: (Book) -> Unit  ) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
+            contentAlignment = Alignment.TopEnd
+        ){
+            Icon(modifier = Modifier.clickable { onRead(book) },
+
+                tint = if(book.isRead) {
+                    Color.Blue
+                } else {
+                    Color.LightGray
+                },
+                imageVector = Icons.Default.Done,
+                contentDescription = "book already read")
+
+
+        }
+    }*/
 }
 
 

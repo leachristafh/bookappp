@@ -23,6 +23,7 @@ import com.example.bookapp.R
 //import androidx.compose.ui.text.input.KeyboardType
 
 import com.example.bookapp.viewmodels.EditViewModel
+import com.example.bookapp.widget.SimpleTextField
 import com.example.bookapp.widget.SimpleTopAppBar
 import com.example.movieappmad23.screens.EditBookUIEvent
 //wieso funktioniert es nicht mt bookapp.screens.EditBookUIEvent beim movieappmad23.
@@ -112,51 +113,49 @@ fun BookInputForm(
     onBookValueChange: (EditBookUiState, EditBookUIEvent) -> Unit,
 ){
 
-    OutlinedTextField(
+    SimpleTextField(
         value = bookUiState.title,
-        label = {Text("Enter a title!")},
+        label = stringResource(id = R.string.enter_book_title),
         isError = bookUiState.titleErr,
-        onValueChange = {
-            onBookValueChange(bookUiState.copy(title =it), EditBookUIEvent.TitleChanged)
+        errMsg = stringResource(id = R.string.title_required),
+        onChange = { input ->
+            onBookValueChange(bookUiState.copy(title = input), EditBookUIEvent.TitleChanged)
         }
     )
 
-
-    OutlinedTextField(
+    SimpleTextField(
         value = bookUiState.author,
-        label = {Text("Enter a author!")},
+        label = stringResource(id = R.string.enter_author),
         isError = bookUiState.authorErr,
-        onValueChange = {
-            onBookValueChange(bookUiState.copy(author =it), EditBookUIEvent.AuthorChanged)
+        errMsg = stringResource(id = R.string.author_required),
+        onChange = { input ->
+            onBookValueChange(bookUiState.copy(author = input), EditBookUIEvent.AuthorChanged)
         }
     )
-
-    OutlinedTextField(
+    SimpleTextField(
         value = bookUiState.isbn,
-        label = {Text("Enter a isbn!")},
+        label = stringResource(id = R.string.enter_isbn),
         isError = bookUiState.isbnErr,
-        onValueChange = {
-            onBookValueChange(bookUiState.copy(isbn =it), EditBookUIEvent.IsbnChanged)
+        errMsg = stringResource(id = R.string.isbn_required),
+        onChange = { input ->
+            onBookValueChange(bookUiState.copy(isbn = input), EditBookUIEvent.IsbnChanged)
         }
     )
 
-    OutlinedTextField(
-        value = bookUiState.year.toString(), //value muss ein string sein - kotlin sehr streng
-        label = {Text("Enter a year!")},
+    SimpleTextField(
+        value = bookUiState.year.toString(),
+        label = stringResource(id = R.string.enter_book_year),
         isError = bookUiState.yearErr,
-        onValueChange = {
-            onBookValueChange(bookUiState.copy(isbn =it), EditBookUIEvent.YearChanged)
+        errMsg = stringResource(id = R.string.year_required),
+        onChange = { input ->
+            val year = input.toIntOrNull() // Convert the string back to an integer
+            if (year != null) {
+                onBookValueChange(bookUiState.copy(year = year), EditBookUIEvent.YearChanged)
+            }
         }
+    //ist das richtig oder soll ich das von google docs nehmen?
     )
 
-
-
-
-
-
-
-
-//isbn
 }
 
 /*
